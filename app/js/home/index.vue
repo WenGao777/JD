@@ -1,18 +1,48 @@
 <template>
-    <div :class="$style.home">
-        <h1>Home</h1>
+    <div>
+        <Heador/>
+        <div :class="$style.room">
+          <Slider/>
+          <Lis/>
+          <Crowd/>
+          <Money/>
+          <Adv/>
+          <Footer/>     
+          </div>   
+          <Nav/>
     </div>
 </template>
 
 <script>
+import Heador from '../public/header.vue'
+import Slider from './sliderA.vue'
+import Lis from './Lis.vue'
+import Crowd from './crowdNew.vue'
+import Money from './money.vue'
+import Adv from './Adva.vue'
+import Footer from '../public/footer.vue'
+import Nav from '../public/navbar.vue'
 export default {
+  data() {
+    return {};
+  },
+  components:{
+    Heador,
+    Slider,
+    Lis,
+    Crowd,
+    Money,
+    Adv,
+    Footer,
+    Nav,
+  }
 }
 </script>
 
 <style lang="scss" module>
-  @import '../../css/reset.scss';
-  .home{
-    color: red;
-    font-size: 80px;
-  }
+.room {
+  width: 100%;
+  max-width: 1536px;/*px*/
+  margin: 0 auto;
+}
 </style>
