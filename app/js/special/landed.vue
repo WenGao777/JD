@@ -16,18 +16,18 @@
                 </div>
            </div>
            <div :class="$style.box">
-               <div :class="$style.inputcontainer" :style="{display:userbox}">
+               <div :class="$style.inputcontainer" v-show="userbox">
                <p >账号</p>
                <input v-model="txtusername" type="text" placeholder="用户名/邮箱/已验证手机" :class="$style.username" @click="display('name')" @blur="hid('name')" >
-               <div :class="{[$style.iconname]:true,[$style.icon]:true}" :style="{display:writeni}" @click="clear('name')"></div> 
+               <div :class="{[$style.iconname]:true,[$style.icon]:true}"  @click="clear('name')" v-show="writeni"></div> 
                </div>
-               <div :class="$style.inputcontainer" :style="{display:userbox}">
+               <div :class="$style.inputcontainer" v-show="userbox">
                <p>密码</p>
                <input v-model="txtpassword" :type="pass" placeholder="请输入密码" :class="$style.password" @click="display('pass')" @blur="hid('pass')" >
-               <div :class="{[$style.iconpass]:true,[$style.icon]:true}" :style="{display:writepi}" @click="clear('pass')"></div> 
+               <div :class="{[$style.iconpass]:true,[$style.icon]:true}"  @click="clear('pass')" v-show="writepi"></div> 
                <div :class="{[$style.checkbtn]:true,[$style.bkA]:bkA,[$style.bkB]:bkB}"  @click="bkimgchange()"></div>
                </div>
-               <div :class="$style.inputcontainer" :style="{display:smsbox}">
+               <div :class="$style.inputcontainer" v-show="smsbox">
                  <router-link :to="{name:'Area',query:{purp:'Load'}}">
                  <label :class="$style.select">
                    <p>{{number}}</p>
@@ -35,12 +35,12 @@
                  </label>
                  </router-link>
                  <input v-model="txtphone" type="text" placeholder="请输入手机号" :class="$style.phone" @click="display('phone')" @blur="hid('phone')">
-                 <div :class="{[$style.iconphone]:true,[$style.icon]:true}" :style="{display:writeps}" @click="clear('phone')"></div> 
+                 <div :class="{[$style.iconphone]:true,[$style.icon]:true}" @click="clear('phone')" v-show="writeps"></div> 
                  <button :class="$style.mesg">获取验证码</button>
                </div>
-               <div :class="$style.inputcontainer" :style="{display:smsbox}">
+               <div :class="$style.inputcontainer" v-show="smsbox">
                  <input v-model="txtmsg" type="text" placeholder="请输入收到的验证码" :class="$style.msg" @click="display('msg')" @blur="hid('msg')" >
-                 <div :class="{[$style.iconmsg]:true,[$style.icon]:true}" :style="{display:writess}" @click="clear('msg')"></div> 
+                 <div :class="{[$style.iconmsg]:true,[$style.icon]:true}" @click="clear('msg')" v-show="writess"></div> 
                </div>
            </div>
            <div :class="$style.bum">
@@ -89,8 +89,8 @@ export default {
       //这里直接定死回来的样式
       this.userselected = false;
       this.smsselected = "login-selected";
-      this.userbox = "none";
-      this.smsbox = "block";
+      this.userbox = false;
+      this.smsbox = true;
       //这里才是计算number值
       let id = this.$route.query.id;
       this.getData(id);
@@ -102,10 +102,10 @@ export default {
       userselected: "login-selected",
       smsselected: false,
       //input栏后面的清除图标的显示切换
-      writeni: "none",
-      writepi: "none",
-      writeps: "none",
-      writess: "none",
+      writeni: false,
+      writepi: false,
+      writeps: false,
+      writess: false,
       //随着眼睛样式的切换，切换密码栏input的type
       pass: "password",
       //密码栏的眼睛样式的切换
@@ -114,8 +114,8 @@ export default {
       //区域号码的数据
       number: 86,
       //用户登陆和短信登陆框的切换
-      userbox: "block",
-      smsbox: "none",
+      userbox: true,
+      smsbox: false,
       //传入登陆错误结果的消息数据
       notice: " ",
       //登陆按钮样式相关的watch设置所需
@@ -161,8 +161,8 @@ export default {
     usernameque: function() {
       this.smsselected = false;
       this.userselected = "login-selected";
-      this.userbox = "block";
-      this.smsbox = "none";
+      this.userbox = true;
+      this.smsbox = false;
       this.txtphone = "";
       this.txtmsg = "";
     },
@@ -170,33 +170,33 @@ export default {
     smsque: function() {
       this.userselected = false;
       this.smsselected = "login-selected";
-      this.userbox = "none";
-      this.smsbox = "block";
+      this.userbox = false;
+      this.smsbox = true;
       this.txtusername = "";
       this.txtpassword = "";
     },
     //点击input框触发事件，显示尾部的 清除图标
     display: function(param) {
       if (param == "name") {
-        this.writeni = "block";
+        this.writeni =true;
       } else if (param == "pass") {
-        this.writepi = "block";
+        this.writepi = true;
       } else if (param == "phone") {
-        this.writeps = "block";
+        this.writeps = true;
       } else if (param == "msg") {
-        this.writess = "block";
+        this.writess =true;
       }
     },
     //input框失去焦点时，隐藏尾部的 清除图标
     hid: function(param) {
       if (param == "name") {
-        this.writeni = "none";
+        this.writeni = false;
       } else if (param == "pass") {
-        this.writepi = "none";
+        this.writepi = false;
       } else if (param == "phone") {
-        this.writeps = "none";
+        this.writeps = false;
       } else if (param == "msg") {
-        this.writess = "none";
+        this.writess = false;
       }
     },
     //点击眼睛图标，切换密码框的type，并更换图标的background
